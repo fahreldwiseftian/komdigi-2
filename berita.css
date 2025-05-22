@@ -1,0 +1,193 @@
+
+        /* Global Style */
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #ffffff;
+    color: #333333;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Navbar */
+.navbar {
+    background-color: #002147; /* biru tua */
+}
+
+.navbar-brand img {
+    height: 40px;
+}
+
+.navbar-nav .nav-link {
+    color: #ffffff;
+    margin-right: 15px;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #f0f0f0;
+}
+
+/* Hero Section */
+.hero {
+    background: linear-gradient(rgba(0, 0, 64, 0.7), rgba(0, 0, 64, 0.7)), url('gambar-hero.jpg') center/cover no-repeat;
+    color: white;
+    text-align: center;
+    padding: 100px 20px;
+}
+
+/* Slide Gambar Berita */
+.carousel-inner img {
+    width: 100%;
+    height: 400px; /* fix ukuran slide */
+    object-fit: cover;
+}
+
+/* Section Konten Berita */
+.news-section {
+    padding: 60px 20px;
+    background-color: #f8f9fa;
+}
+
+.news-section h2 {
+    text-align: center;
+    margin-bottom: 40px;
+    color: #002147;
+}
+
+.news-card {
+    background: #ffffff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.news-card img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+}
+
+.news-card-body {
+    padding: 20px;
+}
+
+.news-card-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #002147;
+}
+
+.news-card-text {
+    font-size: 14px;
+    color: #666;
+}
+
+/* Footer */
+footer {
+    background-color: #002147;
+    color: #ffffff;
+}
+
+footer ul {
+    padding: 0;
+    list-style: none;
+}
+
+footer ul li {
+    margin: 5px 0;
+}
+
+footer a {
+    color: #ffffff;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+/* Tombol ke atas */
+.btn-light {
+    background-color: #ffffff;
+    color: #002147;
+    border: none;
+}
+
+/* Tombol aksesibilitas */
+.btn-primary {
+    background-color: #0056b3;
+    border: none;
+}
+
+/* Responsif */
+@media (max-width: 768px) {
+    .carousel-inner img {
+        height: 250px;
+    }
+    
+    .news-card img {
+        height: 150px;
+    }
+}
+.carousel-inner img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+}
+
+@media (max-width: 768px) {
+    .carousel-inner img {
+        height: 250px;
+    }
+}
+.berita {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  padding: 20px;
+}
+
+.berita-item {
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.berita-item img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px 10px 0 0;
+}
+
+.berita-item h3 {
+  font-size: 18px;
+  margin: 15px;
+  color: #000;
+}
+
+.kategori {
+  font-size: 14px;
+  color: green;
+  margin: 0 15px 15px 15px;
+}
+.btn-light {
+    z-index: 9999;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 10px 12px;
+    background-color: #1c7fe2;
+    color: #000;
+    border: none;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.btn-light:hover {
+    background-color: gray;
+    color: #000;
+}
