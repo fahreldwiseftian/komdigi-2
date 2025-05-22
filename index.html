@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Komdigi - Digital Community</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js"></script>
+    <style>
+        /* Global Style */
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #ffffff;
+    color: #333333;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+/*navbar */
+.navbar {
+    background-color: #002147; /* biru tua */
+    transition: background-color 0.3s, box-shadow 0.3s; /* transisi halus */
+}
+
+.navbar.scrolled {
+    background-color: #001a33; /* warna navbar saat di-scroll */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* bayangan saat scroll */
+}
+
+/* Tambahkan padding-top pada konten utama agar tidak tertutup navbar fixed */
+.content {
+    padding-top: 80px; /* sesuaikan dengan tinggi navbar */
+}
+
+/* Hero Section */
+.hero {
+    background: linear-gradient(rgba(0, 0, 64, 0.7), rgba(0, 0, 64, 0.7)), url('gambar-hero.jpg') center/cover no-repeat;
+    color: white;
+    text-align: center;
+    padding: 100px 20px;
+}
+
+/* Slide Gambar Berita */
+.carousel-inner img {
+    width: 100%;
+    height: auto; /* Mengubah dari fixed height ke auto untuk menjaga rasio aspek */
+    max-height: 400px; /* Menetapkan tinggi maksimum */
+        object-fit: contain; /* Mengubah dari cover ke contain untuk mencegah pemotongan */
+}
+
+
+/* Section Konten Berita */
+.news-section {
+    padding: 60px 20px;
+    background-color: #f8f9fa;
+}
+
+.news-section h2 {
+    text-align: center;
+    margin-bottom: 40px;
+    color: #002147;
+}
+
+.news-card {
+    background: #ffffff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.news-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.news-card-body {
+    padding: 20px;
+}
+
+.news-card-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #002147;
+}
+
+.news-card-text {
+    font-size: 14px;
+    color: #666;
+}
+
+/* Footer */
+footer {
+    background-color: #002147;
+    color: #ffffff;
+}
+
+footer ul {
+    padding: 0;
+    list-style: none;
+}
+
+footer ul li {
+    margin: 5px 0;
+}
+
+footer a {
+    color: #ffffff;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+/* Tombol ke atas */
+.btn-light {
+    background-color: #ffffff;
+    color: #002147;
+    border: none;
+}
+
+/* Tombol aksesibilitas */
+.btn-primary {
+    background-color: #0056b3;
+    border: none;
+}
+
+/* Responsif */
+@media (max-width: 768px) {
+    .carousel-inner img {
+        height: 250px;
+    }
+    
+    .news-card img {
+        height: 150px;
+    }
+}
+.carousel-inner img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+}
+
+@media (max-width: 768px) {
+    .carousel-inner img {
+        height: 250px;
+    }
+}
+.btn-light {
+    z-index: 9999;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 10px 12px;
+    background-color: #1c7fe2;
+    color: #000;
+    border: none;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.btn-light:hover {
+    background-color: gray;
+    color: #000;
+}
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
+    <div class="container d-flex justify-content-between align-items-center">
+        <!-- Kiri: Gambar-gambar -->
+        <div class="d-flex align-items-center">
+            <img src="download.png" alt="Komdigi Logo" height="40">
+            <img src="download (1).png" alt="BerAKHLAK" height="40" class="ms-3">
+            <img src="download (2).png" alt="Bangga Melayani Bangsa" height="40" class="ms-3">
+        </div>
+
+        <!-- Tengah: Form Pencarian -->
+        <form id="searchForm" class="d-flex align-items-center mx-auto" style="max-width: 400px; width: 100%;">
+            <input type="text" class="form-control form-control-sm" id="searchInput" placeholder="Cari...">
+            <button class="btn btn-sm btn-primary ms-2" type="submit">Cari</button>
+        </form>
+
+        <!-- Kanan: Icon dan tombol offcanvas -->
+        <div class="d-flex align-items-center">
+            <button class="btn btn-outline-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu">
+                <i class="fa-solid fa-bars fa-lg"></i>
+            </button>
+        </div>
+    </div>
+</nav>
+<!-- Offcanvas Menu -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasMenu">
+    <div class="offcanvas-header">
+    <h5 class="offcanvas-title">
+        <a class="nav-link" href="index.html">Home</a>
+    </h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+</div>
+    <div class="offcanvas-body">
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="collapse" href="#beritaSubmenu" role="button" aria-expanded="false" aria-controls="beritaSubmenu">
+                    BERITA <i class="fa-solid fa-caret-down ms-1"></i>
+                </a>
+                <div class="collapse ps-3" id="beritaSubmenu">
+                    <ul class="nav flex-column">
+                        <li class="nav-item"><a class="nav-link" href="BeritaBeritakomdigi.html">Berita Komdigi</a></li>
+                        <li class="nav-item"><a class="nav-link" href="BeritaSiaranpers.html">Siaran pers</a></li>
+                        <li class="nav-item"><a class="nav-link" href="BeritaBeritapemerintahan.html">Berita pemerintahan</a></li>
+                        <li class="nav-item"><a class="nav-link" href="BeritaPengunguman.html">Pengumguman</a></li>
+                        <li class="nav-item"><a class="nav-link" href="BeritaFoto.html">Foto</a></li>
+                        <li class="nav-item"><a class="nav-link" href="BeritaVideo.html">Video</a></li>
+                        <li class="nav-item"><a class="nav-link" href="BeritaMajalah.html">Majalah</a></li>
+                        <li class="nav-item"><a class="nav-link" href="BeritaKlarifikasihoaks.html">Klarifikasi hoaks</a></li>
+                        <li class="nav-item"><a class="nav-link" href="BeritaArtikel.html">Artikel</a></li>
+                    </ul>
+                </div>
+            </li>
+
+            <!-- KINERJA -->
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="collapse" href="#kinerjaSubmenu" role="button" aria-expanded="false" aria-controls="kinerjaSubmenu">
+                    KINERJA <i class="fa-solid fa-caret-down ms-1"></i>
+                </a>
+                <div class="collapse ps-3" id="kinerjaSubmenu">
+                    <ul class="nav flex-column">
+                        <li class="nav-item"><a class="nav-link" href="KinejaLaporankeuangan.html">Laporan keuangan</a></li>
+                        <li class="nav-item"><a class="nav-link" href="KinerjaLaporantahunan.html">Laporan tahunan</a></li>
+                        <li class="nav-item"><a class="nav-link" href="LaporanKinerja.html">Laporan kinerja</a></li>
+                        <li class="nav-item"><a class="nav-link" href="KinerjaLaporanpelayanan.html">Laporan pelayanan</a></li>
+                        <li class="nav-item"><a class="nav-link" href="KinerjaRenstra.html">Renstra</a></li>
+                        <li class="nav-item"><a class="nav-link" href="KinerjaHasilsurvei.html">Hasil survei</a></li>
+                        <li class="nav-item"><a class="nav-link" href="KinerjaDatakinerja.html">Data kinerja</a></li>
+                    </ul>
+                </div>
+            </li>
+
+            <!-- LAYANAN -->
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="collapse" href="#layananSubmenu" role="button" aria-expanded="false" aria-controls="layananSubmenu">
+                    LAYANAN <i class="fa-solid fa-caret-down ms-1"></i>
+                </a>
+                <div class="collapse ps-3" id="layananSubmenu">
+                    <ul class="nav flex-column">
+                        <li class="nav-item"><a class="nav-link" href="layanan.html#Sertifikasi">Sertifikasi</a></li>
+                        <li class="nav-item"><a class="nav-link" href="layanan.html#Pemerintahan Digital">Pemerintahan</a></li>
+                        <li class="nav-item"><a class="nav-link" href="layanan.html">Perizinan</a></li>
+                        <li class="nav-item"><a class="nav-link" href="layanan.html">Beasiswa</a></li>
+                        <li class="nav-item"><a class="nav-link" href="layanan.html">Umum</a></li>
+                    </ul>
+                </div>
+            </li>
+
+            <!-- TRANSFORMASI DIGITAL -->
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="collapse" href="#transformasiSubmenu" role="button" aria-expanded="false" aria-controls="transformasiSubmenu">
+                    TRANSFORMASI DIGITAL <i class="fa-solid fa-caret-down ms-1"></i>
+                </a>
+                <div class="collapse ps-3" id="transformasiSubmenu">
+                    <ul class="nav flex-column">
+                        <li class="nav-item"><a class="nav-link" href="TransformasidigitalInfrastrukturdigital.html">Infrastruktur digital</a></li>
+                        <li class="nav-item"><a class="nav-link" href="TransforrmasidigitalPemerintahandigital.html">Pemerintahan digital</a></li>
+                        <li class="nav-item"><a class="nav-link" href="TransformasidigitalEkonomidigital.html">Ekonomi digital</a></li>
+                        <li class="nav-item"><a class="nav-link" href="TransformasidigitalMasyarakatdigital.html">Masyarakat digital</a></li>
+                        <li class="nav-item"><a class="nav-link" href="TransformasidigitalProgramkomdigil.html">Program komdigi</a></li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+    <!-- Hero Section -->
+    <div class="content">
+          <!-- Slide Gambar Berita di paling atas -->
+        <section id="carouselBerita" class="pt-2">
+            <div class="container">
+                <div id="beritaCarousel" class="carousel slide rounded shadow overflow-hidden" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img src="May 22, 2025, 06_52_06 AM.png" class="d-block w-100" alt="Slide 1">
+                            <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 p-3 rounded">
+                                <span class="badge bg-warning text-dark mb-2">SIARAN PERS</span>
+                                <h5 class="fw-bold">Meutya Hafid di Dubai: Masa Depan AI Milik Semua Bangsa</h5>
+                                <a href="meutya.html" class="text-white mt-2 d-inline-block">Baca Selengkapnya <i class="fas fa-arrow-right ms-1"></i></a>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <img src="ChatGPT Image May 22, 2025, 07_04_02 AM.png" class="d-block w-100" alt="Slide 2">
+                            <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 p-3 rounded">
+                                <span class="badge bg-warning text-dark mb-2">SIARAN PERS</span>
+                                <h5 class="fw-bold">Komdigi Hadirkan Inovasi untuk Semua</h5>
+                                <a href="Komdigi Hadirkan Inovasi untuk Semua.html" class="text-white mt-2 d-inline-block">Baca Selengkapnya<i class="fas fa-arrow-right ms-1"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#beritaCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon"></span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#beritaCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon"></span>
+                    </button>
+                </div>
+            </div>
+        </section>
+    
+    
+        <!-- Konten Berita -->
+        <section id="news" class="py-5">
+            <div class="container">
+                <h2 class="text-center fw-bold mb-5">Berita Terkini</h2>
+                <div class="row g-4">
+                    <!-- Berita Utama -->
+                    <div class="col-md-6">
+                        <div class="card p-3 h-100">
+                            <img src="download (40).jpeg" class="card-img-top" alt="Berita 1">
+                            <div class="card-body">
+                                <h4 class="card-title">Peluncuran Platform Komdigi Terbaru</h4>
+                                <p class="card-text">Kami memperkenalkan inovasi terbaru untuk mendukung transformasi digital nasional.</p>
+                                <a href="PeluncuranPlatform.html" class="btn btn-primary">Baca Selengkapnya</a>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <!-- Berita Lain -->
+                    <div class="col-md-3">
+                        <div class="card p-3 h-100">
+                            <h5>Pengumuman Beasiswa Digital 2025</h5>
+                            <p>Daftar sekarang untuk mendapatkan beasiswa di bidang teknologi digital!</p>
+                            <a href="mendapatkan beasiswa di bidang teknologi digital.html" class="btn btn-outline-primary btn-sm">Selengkapnya</a>
+                        </div>
+                    </div>
+    
+                    <div class="col-md-3">
+                        <div class="card p-3 h-100">
+                            <h5>Update Foto Kegiatan Komdigi</h5>
+                            <p>Intip dokumentasi seru dari berbagai kegiatan digitalisasi di seluruh Indonesia.</p>
+                            <a href="Intip dokumentasi seru.html" class="btn btn-outline-primary btn-sm">Lihat Galeri</a>
+                        </div>
+                    </div>
+    
+                    <!-- Artikel Tambahan -->
+                    <div class="col-md-4">
+                        <div class="card p-3 h-100">
+                            <h5>Artikel: Masa Depan Ekonomi Digital</h5>
+                            <p>Bagaimana peran masyarakat dalam mendorong pertumbuhan ekonomi berbasis teknologi?</p>
+                            <a href="Bagaimana peran masyarakat.html" class="btn btn-outline-primary btn-sm">Baca Artikel</a>
+                        </div>
+                    </div>
+    
+                    <div class="col-md-4">
+                        <div class="card p-3 h-100">
+                            <h5>Siaran Pers: Komdigi Award 2025</h5>
+                            <p>Penghargaan tahunan untuk inovator digital terbaik telah resmi dibuka.</p>
+                            <a href="Penghargaan tahunan untuk.html" class="btn btn-outline-primary btn-sm">Selengkapnya</a>
+                        </div>
+                    </div>
+    
+                    <div class="col-md-4">
+                        <div class="card p-3 h-100">
+                            <h5>Video: Transformasi Digital di Daerah</h5>
+                            <p>Tonton bagaimana teknologi mempercepat kemajuan daerah 3T (Tertinggal, Terdepan, dan Terluar).</p>
+                            <a href="Tonton bagaimana teknologi.html" class="btn btn-outline-primary btn-sm">Tonton Video</a>
+                        </div>
+                    </div>
+    
+                    <!-- Berita Populer -->
+                    <div class="col-12">
+                        <h4 class="fw-bold mt-5 mb-3">Berita Populer</h4>
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <div class="card p-3 h-100">
+                                    <h6>Wamenkomdigi Nezar Patria: Transformasi Digital Bukan Pilihan</h6>
+                                    <p class="small text-muted">Siaran Pers • 10 hari lalu</p>
+                                    <a href="Wamenkomdigi Nezar Patria.html" class="btn btn-outline-secondary btn-sm">Baca</a>
+                                </div>
+                            </div>
+ 
+    <!-- Konten Berita -->
+    <section id="news" class="py-5">
+        <div class="container">
+            <h2 class="text-center fw-bold mb-5">Berita Terkini</h2>
+            <div class="row g-4">
+                <!-- Berita Utama -->
+                <div class="col-md-6">
+                    <div class="card p-3 h-100">
+                        <img src="download (40).jpeg" class="card-img-top" alt="Berita 1">
+                        <div class="card-body">
+                            <h4 class="card-title">Peluncuran Platform Komdigi Terbaru</h4>
+                            <p class="card-text">Kami memperkenalkan inovasi terbaru untuk mendukung transformasi digital nasional.</p>
+                            <a href="Kami memperkenalkan inovasi.html" class="btn btn-primary">Baca Selengkapnya</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Berita Tambahan -->
+                <div class="col-md-3">
+                    <div class="card p-3 h-100">
+                        <h5>Pengumuman Beasiswa Digital 2025</h5>
+                        <p>Daftar sekarang untuk mendapatkan beasiswa di bidang teknologi digital!</p>
+                        <a href="Pengumuman Beasiswa.html" class="btn btn-outline-primary btn-sm">Selengkapnya</a>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="card p-3 h-100">
+                        <h5>Update Foto Kegiatan Komdigi</h5>
+                        <p>Intip dokumentasi seru dari berbagai kegiatan digitalisasi di seluruh Indonesia.</p>
+                        <a href="Update Foto Kegiatan.html" class="btn btn-outline-primary btn-sm">Lihat Galeri</a>
+                    </div>
+                </div>
+
+                <!-- Artikel & Siaran Pers -->
+                <div class="col-md-4">
+                    <div class="card p-3 h-100">
+                        <h5>Artikel: Masa Depan Ekonomi Digital</h5>
+                        <p>Bagaimana peran masyarakat dalam mendorong pertumbuhan ekonomi berbasis teknologi?</p>
+                        <a href="Masa Depan Ekonomi.html" class="btn btn-outline-primary btn-sm">Baca Artikel</a>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card p-3 h-100">
+                        <h5>Siaran Pers: Komdigi Award 2025</h5>
+                        <p>Penghargaan tahunan untuk inovator digital terbaik telah resmi dibuka.</p>
+                        <a href="Komdigi Award.html" class="btn btn-outline-primary btn-sm">Selengkapnya</a>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card p-3 h-100">
+                        <h5>Video: Transformasi Digital di Daerah</h5>
+                        <p>Tonton bagaimana teknologi mempercepat kemajuan daerah 3T (Tertinggal, Terdepan, dan Terluar).</p>
+                        <a href="Transformasi Digital .html" class="btn btn-outline-primary btn-sm">Tonton Video</a>
+                    </div>
+                </div>
+
+                <!-- Berita Singkat Banyak -->
+                <div class="col-12">
+                    <h4 class="fw-bold mt-5 mb-3">Berita Lainnya</h4>
+                    <div class="row g-3">
+                        <!-- 6 Berita Kecil -->
+                        <div class="col-md-4">
+                            <div class="card p-3 h-100">
+                                <h6>Judul Berita 1</h6>
+                                <p class="small">Deskripsi singkat berita 1 di bidang digital, inovasi, atau komunitas.</p>
+                                <a href="#" class="btn btn-outline-secondary btn-sm">Baca</a>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card p-3 h-100">
+                                <h6>Judul Berita 2</h6>
+                                <p class="small">Deskripsi singkat berita 2 di bidang digital, inovasi, atau komunitas.</p>
+                                <a href="#" class="btn btn-outline-secondary btn-sm">Baca</a>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card p-3 h-100">
+                                <h6>Judul Berita 3</h6>
+                                <p class="small">Deskripsi singkat berita 3 di bidang digital, inovasi, atau komunitas.</p>
+                                <a href="#" class="btn btn-outline-secondary btn-sm">Baca</a>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card p-3 h-100">
+                                <h6>Judul Berita 4</h6>
+                                <p class="small">Deskripsi singkat berita 4 di bidang digital, inovasi, atau komunitas.</p>
+                                <a href="#" class="btn btn-outline-secondary btn-sm">Baca</a>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card p-3 h-100">
+                                <h6>Judul Berita 5</h6>
+                                <p class="small">Deskripsi singkat berita 5 di bidang digital, inovasi, atau komunitas.</p>
+                                <a href="#" class="btn btn-outline-secondary btn-sm">Baca</a>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card p-3 h-100">
+                                <h6>Judul Berita 6</h6>
+                                <p class="small">Deskripsi singkat berita 6 di bidang digital, inovasi, atau komunitas.</p>
+                                <a href="#" class="btn btn-outline-secondary btn-sm">Baca</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- Footer -->
+<footer class="bg-primary text-white pt-5 pb-3 mt-5">
+    <div class="container text-center">
+        <img src="download.png" alt="Komdigi Logo" class="mb-3" style="height: 40px;">
+        
+        <ul class="list-unstyled mb-4">
+            <li>Inspektorat Jenderal</li>
+            <li>Ditjen Infrastruktur Digital</li>
+            <li>Ditjen Ekosistem Digital</li>
+            <li>Ditjen Pengawasan Ruang Digital</li>
+            <li>BPSDM Komdigi</li>
+            <li>BAKTI Komdigi</li>
+            <li>Museum Penerangan</li>
+            <li>Monumen Pers Nasional</li>
+            <li>Hubungi Kami</li>
+            <li>FAQ</li>
+            <li>Tautan</li>
+        </ul>
+
+        <div class="mb-3">
+            <p class="mb-1"><i class="bi bi-geo-alt-fill"></i> Jl. Medan Merdeka Barat No. 9, Jakarta Pusat 10110</p>
+            <p class="mb-1"><i class="bi bi-telephone-fill"></i> (021) 3504024</p>
+            <p><i class="bi bi-envelope-fill"></i> pelayanan@mail.komdigi.go.id</p>
+        </div>
+
+        <div class="mb-4">
+            <a href="#" class="text-white me-3"><i class="bi bi-facebook fs-4"></i></a>
+            <a href="#" class="text-white me-3"><i class="bi bi-instagram fs-4"></i></a>
+            <a href="#" class="text-white me-3"><i class="bi bi-youtube fs-4"></i></a>
+            <a href="#" class="text-white me-3"><i class="bi bi-twitter-x fs-4"></i></a>
+            <a href="#" class="text-white"><i class="bi bi-tiktok fs-4"></i></a>
+        </div>
+
+        <div class="border-top border-white pt-3 small">
+            <p class="mb-1">Kementerian Komunikasi dan Digital RI. Hak Cipta Dilindungi Undang-undang.</p>
+            <a href="#" class="text-white me-2">Kebijakan Privasi</a> |
+            <a href="#" class="text-white ms-2">Peta Situs</a>
+        </div>
+    </div>
+
+    <!-- Tombol untuk naik ke atas -->
+    <a href="#" class="btn btn-light rounded-circle position-fixed" style="bottom: 20px; right: 20px;" onclick="window.scrollTo(0, 0)">
+        <i class="bi bi-arrow-up-circle fs-1"></i>
+    </a>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $(window).scroll(function () {
+            if ($(this).scrollTop() > 50) {
+                $('.navbar').addClass('scrolled');
+            } else {
+                $('.navbar').removeClass('scrolled');
+            }
+        });
+    });
+
+    $(document).ready(function () {
+    // Navbar scroll effect
+    $(window).scroll(function () {
+        if ($(this).scrollTop() > 50) {
+            $('.navbar').addClass('scrolled');
+        } else {
+            $('.navbar').removeClass('scrolled');
+        }
+    });
+
+    // Toggle search input
+    $('#searchIcon').click(function () {
+        $('#searchForm').toggleClass('d-none');
+        $('#searchInput').focus();
+    });
+
+    // Fungsi submit search
+    $('#searchForm').submit(function (e) {
+        e.preventDefault();
+        const query = $('#searchInput').val().trim();
+        if (query) {
+            alert('Kamu mencari: ' + query);
+            // Bisa arahkan ke halaman hasil pencarian, misal:
+            // window.location.href = '/search.html?q=' + encodeURIComponent(query);
+        }
+    });
+});
+</script>
+</body>
+</html>
